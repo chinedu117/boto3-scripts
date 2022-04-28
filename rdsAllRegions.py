@@ -1,6 +1,11 @@
 import boto3
 import json
+import os
+from dotenv import load_dotenv
 
+load_dotenv(".env")
+
+boto3.setup_default_session(profile_name=os.environ.get("AWS_PROFILE"))
 def main():
     # Pre requisite - ensure you have RDS Read Access
     available_regions = boto3.Session().get_available_regions('rds')
@@ -16,6 +21,7 @@ def main():
             with open(fileName, 'w') as f:
                 json.dump(allDatabases, f, indent=4, default=str)
         except Exception as e:
+            print(e)
             if 'InvalidClientTokenId' in e.response['Error']['Code']:
                 pass
             else:

@@ -1,0 +1,3 @@
+venv
+rds_regions/*
+.env
